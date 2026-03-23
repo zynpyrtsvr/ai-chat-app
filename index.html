@@ -3,95 +3,14 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Static Chat UI Prototype</title>
+    <title>React Chat Application</title>
 
     <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Custom element definition -->
-    <script src="script.js" defer></script>
   </head>
 
-  <body class="h-screen bg-slate-100">
-    <div class="h-full w-full flex">
-      <!-- Sidebar -->
-      <aside class="w-72 bg-white border-r border-slate-200 flex flex-col">
-        <div class="p-4 border-b border-slate-200">
-          <button
-            type="button"
-            class="w-full rounded-lg bg-slate-900 text-white py-2 font-medium hover:bg-slate-800 transition"
-          >
-            + New Chat
-          </button>
-        </div>
-
-        <nav class="p-3 space-y-2">
-          <!-- Active conversation -->
-          <button
-            type="button"
-            class="w-full text-left px-3 py-2 rounded-lg bg-slate-100 border border-slate-200"
-          >
-            <div class="font-medium text-slate-900">Chat 1</div>
-            <div class="text-sm text-slate-500 truncate">
-              Static UI prototype
-            </div>
-          </button>
-
-          <!-- Another conversation -->
-          <button
-            type="button"
-            class="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-50 border border-transparent hover:border-slate-200 transition"
-          >
-            <div class="font-medium text-slate-900">Chat 2</div>
-            <div class="text-sm text-slate-500 truncate">
-              Random ideas
-            </div>
-          </button>
-        </nav>
-      </aside>
-
-      <!-- Main chat area -->
-      <main class="flex-1 flex flex-col">
-        <!-- Header -->
-        <header class="h-14 bg-white border-b border-slate-200 flex items-center px-4">
-          <div class="font-semibold text-slate-900">Chat 1</div>
-          <div class="ml-2 text-sm text-slate-500">• Static Prototype</div>
-        </header>
-
-        <!-- Messages (scrollable) -->
-        <section class="flex-1 overflow-y-auto p-4 space-y-3">
-          <!-- At least 3 messages, alternating AI / user / AI -->
-          <chat-message role="ai" time="19:10">
-            Hi! This is a static chat UI prototype.
-          </chat-message>
-
-          <chat-message role="user" time="19:11">
-            Cool — user messages should be right aligned.
-          </chat-message>
-
-          <chat-message role="ai" time="19:12">
-            Yes — AI messages are left aligned. Send button doesn’t need to work.
-          </chat-message>
-        </section>
-
-        <!-- Input pinned at bottom -->
-        <footer class="bg-white border-t border-slate-200 p-3">
-          <div class="max-w-3xl mx-auto flex gap-2 items-end">
-            <textarea
-              class="flex-1 resize-none rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
-              rows="1"
-              placeholder="Type a message..."
-            ></textarea>
-
-            <button
-              type="button"
-              class="rounded-xl bg-slate-900 text-white px-5 py-3 font-medium hover:bg-slate-800 transition"
-            >
-              Send
-            </button>
-          </div>
-        </footer>
-      </main>
-    </div>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
