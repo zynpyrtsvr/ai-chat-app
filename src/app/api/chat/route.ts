@@ -7,14 +7,20 @@ export async function POST(req: Request) {
 
   const messages = await getMessagesByConversationId(conversationId);
 
+  const apiKey = process.env.OPENROUTER_API_KEY;
+  const modelName = process.env.OPENROUTER_MODEL;
+
+  console.log("API Key exists:", !!apiKey);
+  console.log("Model:", modelName);
+
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: process.env.OPENROUTER_MODEL,
+      model: modelName,
       messages: messages.map((m: any) => ({
         role: m.role,
         content: m.content,
@@ -22,6 +28,14 @@ export async function POST(req: Request) {
       stream: true,
     }),
   });
+
+  console.log("OpenRouter status:", response.status);
+
+  if (!response.ok) {
+    const error = await response.text();
+    console.log("OpenRouter error:", error);
+    return new Response(error, { status: 500 });
+  }
 
   const reader = response.body!.getReader();
   const encoder = new TextEncoder();
