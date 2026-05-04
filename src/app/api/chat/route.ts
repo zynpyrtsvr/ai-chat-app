@@ -10,9 +10,6 @@ export async function POST(req: Request) {
   const apiKey = process.env.OPENROUTER_API_KEY;
   const modelName = process.env.OPENROUTER_MODEL;
 
-  console.log("API Key exists:", !!apiKey);
-  console.log("Model:", modelName);
-
   const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -29,11 +26,8 @@ export async function POST(req: Request) {
     }),
   });
 
-  console.log("OpenRouter status:", response.status);
-
   if (!response.ok) {
     const error = await response.text();
-    console.log("OpenRouter error:", error);
     return new Response(error, { status: 500 });
   }
 
@@ -55,7 +49,13 @@ export async function POST(req: Request) {
           if (data === "[DONE]") continue;
           try {
             const parsed = JSON.parse(data);
-            const token = parsed.choices?.[0]?.delta?.content ?? "";
+            const content = parsed.choices?.[0]?.delta?.content;
+            let token = "";
+            if (typeof content === "string") {
+              token = content;
+            } else if (Array.isArray(content)) {
+              token = content.map((c: any) => c.text ?? "").join("");
+            }
             fullText += token;
             controller.enqueue(encoder.encode(token));
           } catch {}
