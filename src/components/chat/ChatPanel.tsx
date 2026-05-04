@@ -37,16 +37,6 @@ export default function ChatPanel({ conversationId, title }: Props) {
     };
     setMessages((prev) => [...prev, tempUserMessage]);
 
-    const response = await fetch("/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ conversationId, message: text }),
-    });
-
-    const reader = response.body!.getReader();
-    const decoder = new TextDecoder();
-    let fullText = "";
-
     const tempAssistantMessage: Message = {
       id: Date.now() + 1,
       role: "assistant",
@@ -55,18 +45,33 @@ export default function ChatPanel({ conversationId, title }: Props) {
     };
     setMessages((prev) => [...prev, tempAssistantMessage]);
 
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      fullText += decoder.decode(value);
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === tempAssistantMessage.id ? { ...m, content: fullText } : m
-        )
-      );
-    }
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conversationId, message: text }),
+      });
 
-    setLoading(false);
+      const reader = response.body!.getReader();
+      const decoder = new TextDecoder();
+      let fullText = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        fullText += chunk;
+        setMessages((prev) =>
+          prev.map((m) =>
+            m.id === tempAssistantMessage.id ? { ...m, content: fullText } : m
+          )
+        );
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
