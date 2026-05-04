@@ -11,7 +11,7 @@ export async function getAllConversations() {
     },
   });
 
-  return conversations.map((c) => ({
+  return conversations.map((c: any) => ({
     id: c.id,
     title: c.title,
     preview: c.messages[0]?.content ?? "No messages yet",
