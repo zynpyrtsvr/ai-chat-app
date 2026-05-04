@@ -2,6 +2,8 @@ import { getAllConversations } from "@/lib/dal";
 import SidebarWrapper from "@/components/sidebar/SidebarWrapper";
 import ChatPanel from "@/components/chat/ChatPanel";
 
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ id: string }>;
 };
