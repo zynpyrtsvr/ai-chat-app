@@ -27,7 +27,7 @@ export default function MessageInput({ onSendMessage, disabled }: Props) {
         <textarea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
-          className="flex-1 resize-none rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
+          className="flex-1 resize-none rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-400 text-slate-900 placeholder:text-slate-400"
           rows={1}
           placeholder="Type a message..."
           disabled={disabled}
