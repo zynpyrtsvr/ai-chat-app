@@ -1,4 +1,13 @@
-function MessageBubble({ message }) {
+"use client";
+
+type Message = {
+  id: number;
+  role: string;
+  content: string;
+  time: string;
+};
+
+export default function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
 
   return (
@@ -11,7 +20,6 @@ function MessageBubble({ message }) {
         }
       >
         <div className="text-sm leading-relaxed">{message.content}</div>
-
         {message.time && (
           <div
             className={
@@ -27,5 +35,3 @@ function MessageBubble({ message }) {
     </div>
   );
 }
-
-export default MessageBubble;

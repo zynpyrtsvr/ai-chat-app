@@ -1,9 +1,23 @@
+"use client";
+
 import { useEffect, useRef } from "react";
 import MessageBubble from "./MessageBubble";
 import LoadingIndicator from "./LoadingIndicator";
 
-function MessageList({ messages, loading }) {
-  const bottomRef = useRef(null);
+type Message = {
+  id: number;
+  role: string;
+  content: string;
+  time: string;
+};
+
+type Props = {
+  messages: Message[];
+  loading: boolean;
+};
+
+export default function MessageList({ messages, loading }: Props) {
+  const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -14,12 +28,8 @@ function MessageList({ messages, loading }) {
       {messages.map((message) => (
         <MessageBubble key={message.id} message={message} />
       ))}
-
       {loading && <LoadingIndicator />}
-
-      <div ref={bottomRef}></div>
+      <div ref={bottomRef} />
     </section>
   );
 }
-
-export default MessageList;

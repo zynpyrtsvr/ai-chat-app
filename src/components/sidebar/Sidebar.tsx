@@ -1,11 +1,28 @@
+"use client";
+
 import ConversationItem from "./ConversationItem";
 
-function Sidebar({
+type Conversation = {
+  id: number;
+  title: string;
+  preview: string;
+};
+
+type Props = {
+  conversations: Conversation[];
+  activeConversationId: number | null;
+  onSelectConversation: (id: number) => void;
+  onNewChat: () => void;
+  onDeleteConversation: (id: number) => void;
+};
+
+export default function Sidebar({
   conversations,
   activeConversationId,
   onSelectConversation,
   onNewChat,
-}) {
+  onDeleteConversation,
+}: Props) {
   return (
     <aside className="w-72 bg-white border-r border-slate-200 flex flex-col">
       <div className="p-4 border-b border-slate-200">
@@ -25,11 +42,10 @@ function Sidebar({
             conversation={conversation}
             isActive={conversation.id === activeConversationId}
             onSelectConversation={onSelectConversation}
+            onDeleteConversation={onDeleteConversation}
           />
         ))}
       </nav>
     </aside>
   );
 }
-
-export default Sidebar;

@@ -1,17 +1,19 @@
+"use client";
+
 import { useState } from "react";
 
-function MessageInput({ onSendMessage, disabled }) {
+type Props = {
+  onSendMessage: (text: string) => void;
+  disabled: boolean;
+};
+
+export default function MessageInput({ onSendMessage, disabled }: Props) {
   const [inputText, setInputText] = useState("");
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent) {
     event.preventDefault();
-
     const cleanedText = inputText.trim();
-
-    if (cleanedText === "") {
-      return;
-    }
-
+    if (cleanedText === "") return;
     onSendMessage(cleanedText);
     setInputText("");
   }
@@ -24,13 +26,12 @@ function MessageInput({ onSendMessage, disabled }) {
       >
         <textarea
           value={inputText}
-          onChange={(event) => setInputText(event.target.value)}
+          onChange={(e) => setInputText(e.target.value)}
           className="flex-1 resize-none rounded-xl border border-slate-300 p-3 focus:outline-none focus:ring-2 focus:ring-slate-400"
-          rows="1"
+          rows={1}
           placeholder="Type a message..."
           disabled={disabled}
-        ></textarea>
-
+        />
         <button
           type="submit"
           disabled={disabled}
@@ -42,5 +43,3 @@ function MessageInput({ onSendMessage, disabled }) {
     </footer>
   );
 }
-
-export default MessageInput;
